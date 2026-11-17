@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.controller.Controller"
+            prefWidth="980" prefHeight="620"
+            style="-fx-background-color: #f4f6f9;">
+
+    <!-- ВЕРХНЯ ПАНЕЛЬ: Вибір теми, правило та розмірності -->
+    <top>
+        <VBox spacing="10" style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 0 0 1 0;">
+            <padding>
+                <Insets top="14" right="20" bottom="14" left="20"/>
+            </padding>
+
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Тема навчання:" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                <ComboBox fx:id="modeComboBox" prefWidth="220" style="-fx-font-size: 13px;"/>
+
+                <Separator orientation="VERTICAL"/>
+
+                <Label text="Розмір A:" style="-fx-font-weight: bold;"/>
+                <Spinner fx:id="rowsASpinner" prefWidth="65"/>
+                <Label text="×"/>
+                <Spinner fx:id="colsASpinner" prefWidth="65"/>
+
+                <Separator orientation="VERTICAL"/>
+
+                <Label text="Розмір B:" style="-fx-font-weight: bold;"/>
+                <Spinner fx:id="rowsBSpinner" prefWidth="65"/>
+                <Label text="×"/>
+                <Spinner fx:id="colsBSpinner" prefWidth="65"/>
+
+                <Button text="Підібрати розміри" onAction="#onAdjustDimensions"
+                        style="-fx-background-color: #e2e6ea; -fx-cursor: hand;"/>
+            </HBox>
+
+            <Label fx:id="ruleLabel"
+                   wrapText="true"
+                   style="-fx-text-fill: #0c5460; -fx-background-color: #d1ecf1; -fx-padding: 8 12; -fx-background-radius: 5; -fx-font-size: 13px;"/>
+        </VBox>
+    </top>
+
+    <!-- ЦЕНТРАЛЬНА ОБЛАСТЬ: Матриці A, B та результат C -->
+    <center>
+        <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background-color: transparent;">
+            <HBox spacing="22" alignment="CENTER">
+                <padding>
+                    <Insets top="25" right="25" bottom="25" left="25"/>
+                </padding>
+
+                <!-- Матриця A -->
+                <VBox spacing="10" alignment="CENTER"
+                      style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #dee2e6; -fx-border-radius: 8;">
+                    <Label text="Матриця A" style="-fx-font-size: 15px; -fx-font-weight: bold;"/>
+                    <GridPane fx:id="gridA" hgap="6" vgap="6" alignment="CENTER"/>
+                </VBox>
+
+                <!-- Знак операції (× або +) -->
+                <Label fx:id="operationSymbolLabel" text="×"
+                       style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #343a40;"/>
+
+                <!-- Матриця B -->
+                <VBox spacing="10" alignment="CENTER"
+                      style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #dee2e6; -fx-border-radius: 8;">
+                    <Label text="Матриця B" style="-fx-font-size: 15px; -fx-font-weight: bold;"/>
+                    <GridPane fx:id="gridB" hgap="6" vgap="6" alignment="CENTER"/>
+                </VBox>
+
+                <!-- Знак рівності -->
+                <Label text="=" style="-fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: #343a40;"/>
+
+                <!-- Результуюча матриця C -->
+                <VBox spacing="10" alignment="CENTER"
+                      style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-border-color: #dee2e6; -fx-border-radius: 8;">
+                    <Label fx:id="resultSizeLabel" text="Матриця C" style="-fx-font-size: 15px; -fx-font-weight: bold;"/>
+                    <GridPane fx:id="gridResult" hgap="6" vgap="6" alignment="CENTER"/>
+                </VBox>
+            </HBox>
+        </ScrollPane>
+    </center>
+
+    <!-- НИЖНЯ ПАНЕЛЬ: Кнопки керування та статус -->
+    <bottom>
+        <VBox spacing="10" alignment="CENTER"
+              style="-fx-background-color: white; -fx-border-color: #dee2e6; -fx-border-width: 1 0 0 0;">
+            <padding>
+                <Insets top="12" right="20" bottom="14" left="20"/>
+            </padding>
+
+            <HBox spacing="14" alignment="CENTER">
+                <Button text="Заповнити випадково" onAction="#onFillRandom"
+                        style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 16; -fx-cursor: hand;"/>
+                <Button text="Підказка (формули)" onAction="#onShowHints"
+                        style="-fx-background-color: #ffc107; -fx-text-fill: #212529; -fx-font-weight: bold; -fx-padding: 8 16; -fx-cursor: hand;"/>
+                <Button text="Перевірити відповідь" onAction="#onCheckResult"
+                        style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 18; -fx-cursor: hand;"/>
+                <Button text="Очистити" onAction="#onClear"
+                        style="-fx-background-color: #6c757d; -fx-text-fill: white; -fx-padding: 8 16; -fx-cursor: hand;"/>
+            </HBox>
+
+            <Label fx:id="statusLabel" text="Готово до роботи." wrapText="true"/>
+        </VBox>
+    </bottom>
+
+</BorderPane>
